@@ -16,4 +16,24 @@ async function loadTasks() {
     }
 
 }
+async function addTask() {
+    const title =  document.getElementById("task-title").value
+    const category = document.getElementById("task-category").value
+
+    if (title === "") {
+        return
+    }
+    const {error} = await client.from("tasks").insert({title, category})
+    if (error) {
+        console.log(error)
+        return
+    }
+    document.getElementById("task-title").value = ""
+    document.getElementById("task-category").value = ""
+    document.getElementById("task-list").innerHTML = ""
+    loadTasks()
+}
+
+document.getElementById("add-btn").addEventListener("click", addTask)
+addTask
 loadTasks()
