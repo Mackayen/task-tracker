@@ -5,3 +5,8 @@ create table tasks (
   is_done boolean default false,
   created_at timestamptz default now()
 );
+
+create policy "Allow public read"
+on tasks for select
+to anon
+using (true);
