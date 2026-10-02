@@ -11,8 +11,12 @@ async function loadTasks() {
     const list = document.getElementById("task-list")
     for (const task of data) {
         const li = document.createElement("li")
-        li.textContent = task.title
+        li.textContent = task.title + " (" + task.category + ")"
         list.appendChild(li)
+        const deleteBtn = document.createElement("button")
+        deleteBtn.textContent = "Delete"
+        deleteBtn.addEventListener("click", () => deleteTask(task.id))
+        li.appendChild(deleteBtn)
     }
 
 }
@@ -32,6 +36,17 @@ async function addTask() {
     document.getElementById("task-category").value = ""
     document.getElementById("task-list").innerHTML = ""
     loadTasks()
+}
+
+async function deleteTask(id) {
+    const {error} = await client.from("tasks").delete().eq("id", id)
+    if (error) {
+        console.log(error)
+        return
+    }
+    document.getElementById("task-list").innerHTML = ""
+    loadTasks()
+
 }
 
 document.getElementById("add-btn").addEventListener("click", addTask)

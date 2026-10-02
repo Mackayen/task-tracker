@@ -10,3 +10,14 @@ create policy "Allow public read"
 on tasks for select
 to anon
 using (true);
+
+create policy "Allow public update"
+on tasks for update
+to anon
+using (true)
+with check (true);
+
+create policy "Allow public delete"
+on tasks for delete
+to anon
+using (true);
